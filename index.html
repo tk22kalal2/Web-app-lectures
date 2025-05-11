@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>NEXTPULSE</title>
+<script src="https://cdn.tailwindcss.com/3.4.16">
+</script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: "#4f46e5",
+        secondary: "#8b5cf6",
+        dark: {
+          bg: "#121212",
+          surface: "#1e1e1e",
+          border: "#2e2e2e",
+          text: "#ffffff",
+        },
+      },
+      borderRadius: {
+        none: "0px",
+        sm: "4px",
+        DEFAULT: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "20px",
+        "2xl": "24px",
+        "3xl": "32px",
+        full: "9999px",
+        button: "8px",
+      },
+    },
+  },
+};
+</script>
+<style>
+:root {
+--color-bg: #ffffff;
+--color-surface: #ffffff;
+--color-border: #e5e7eb;
+--color-text: #1f2937;
+}
+[data-theme="dark"] {
+--color-bg: #121212;
+--color-surface: #1e1e1e;
+--color-border: #2e2e2e;
+--color-text: #ffffff;
+}
+body {
+background-color: var(--color-bg);
+color: var(--color-text);
+-webkit-tap-highlight-color: transparent;
+overscroll-behavior-y: none;
+}
+.app-surface {
+background-color: var(--color-surface);
+border-color: var(--color-border);
+}
+.app-text {
+color: var(--color-text);
+}
+@media (max-width: 768px) {
+.container {
+padding-left: 16px;
+padding-right: 16px;
+}
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+.platform-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.platform-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+input:focus {
+outline: none;
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e5e7eb;
+transition: .4s;
+border-radius: 34px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background-color: #4f46e5;
+}
+input:checked + .slider:before {
+transform: translateX(26px);
+}
+.custom-checkbox {
+appearance: none;
+width: 18px;
+height: 18px;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+background-color: white;
+cursor: pointer;
+position: relative;
+}
+.custom-checkbox:checked {
+background-color: #4f46e5;
+border-color: #4f46e5;
+}
+.custom-checkbox:checked::after {
+content: '';
+position: absolute;
+left: 5px;
+top: 2px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.video-progress {
+appearance: none;
+width: 100%;
+height: 6px;
+border-radius: 3px;
+background: #e5e7eb;
+outline: none;
+}
+.video-progress::-webkit-slider-thumb {
+appearance: none;
+width: 16px;
+height: 16px;
+border-radius: 50%;
+background: #4f46e5;
+cursor: pointer;
+}
+.video-progress::-moz-range-thumb {
+width: 16px;
+height: 16px;
+border-radius: 50%;
+background: #4f46e5;
+cursor: pointer;
+}
+.volume-slider {
+appearance: none;
+width: 80px;
+height: 4px;
+border-radius: 2px;
+background: #e5e7eb;
+outline: none;
+}
+.volume-slider::-webkit-slider-thumb {
+appearance: none;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: #4f46e5;
+cursor: pointer;
+}
+.volume-slider::-moz-range-thumb {
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: #4f46e5;
+cursor: pointer;
+}
+.page {
+display: none;
+}
+.active-page {
+display: block;
+}
+</style>
+</head>
+<body class="pb-16">
+<div class="min-h-screen flex flex-col">
+<!-- Header -->
+<header class="app-surface shadow-sm sticky top-0 z-50 transition-colors duration-200">
+<div class="container mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center">
+<h1 class="text-2xl font-['Pacifico'] text-primary">NEXTPULSE</h1>
+</div>
+<div class="flex items-center space-x-3">
+<button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-110">
+<i class="ri-sun-line hidden dark:inline transition-all duration-300"></i>
+<i class="ri-moon-line dark:hidden transition-all duration-300"></i>
+</button>
+<div id="theme-toast" class="fixed top-4 right-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg px-4 py-3 flex items-center gap-2 transform translate-y-[-100px] transition-all duration-300 z-50">
+<i class="ri-sun-line text-yellow-500 dark:hidden"></i>
+<i class="ri-moon-line text-blue-500 hidden dark:inline"></i>
+<span class="text-gray-800 dark:text-gray-200 text-sm font-medium"></span>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-full text-sm border-none bg-gray-100 w-40 md:w-64">
+<div class="absolute left-3 top-2 w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+<i class="ri-user-line text-gray-600"></i>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Home Page -->
+<div id="home-page" class="page active-page">
+<div class="container mx-auto px-4 py-10">
+<div class="max-w-4xl mx-auto text-center mb-12">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Choose Your NEET-PG Preparation Platform</h2>
+<p class="text-lg text-gray-600">Access comprehensive medical lectures from India's leading NEET-PG preparation platforms</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto" style="display: grid;">
+<!-- Marrow Card -->
+<div class="platform-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('subjects-page', 'Marrow')">
+<div class="h-40 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+<div class="w-24 h-24 bg-white rounded-full flex items-center justify-center">
+<span class="text-2xl font-bold text-indigo-600">Marrow</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Marrow</h3>
+<p class="text-gray-600 mb-4">Comprehensive video lectures with high-yield content and clinical correlations</p>
+<div class="flex items-center text-sm text-gray-500">
+<div class="flex items-center mr-4">
+<i class="ri-video-line mr-1"></i>
+<span>5,200+ lectures</span>
+</div>
+<div class="flex items-center">
+<i class="ri-user-line mr-1"></i>
+<span>50+ faculty</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PrepLadder Card -->
+<div class="platform-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('subjects-page', 'PrepLadder')">
+<div class="h-40 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+<div class="w-24 h-24 bg-white rounded-full flex items-center justify-center">
+<span class="text-2xl font-bold text-blue-600">PrepLadder</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">PrepLadder</h3>
+<p class="text-gray-600 mb-4">Structured learning with concept-based videos and integrated QBank</p>
+<div class="flex items-center text-sm text-gray-500">
+<div class="flex items-center mr-4">
+<i class="ri-video-line mr-1"></i>
+<span>4,800+ lectures</span>
+</div>
+<div class="flex items-center">
+<i class="ri-user-line mr-1"></i>
+<span>45+ faculty</span>
+</div>
+</div>
+</div>
+</div>
+<!-- DAMS Card -->
+<div class="platform-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('subjects-page', 'DAMS')">
+<div class="h-40 bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+<div class="w-24 h-24 bg-white rounded-full flex items-center justify-center">
+<span class="text-2xl font-bold text-orange-600">DAMS</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">DAMS</h3>
+<p class="text-gray-600 mb-4">Exam-oriented lectures with clinical pearls and mnemonics</p>
+<div class="flex items-center text-sm text-gray-500">
+<div class="flex items-center mr-4">
+<i class="ri-video-line mr-1"></i>
+<span>4,500+ lectures</span>
+</div>
+<div class="flex items-center">
+<i class="ri-user-line mr-1"></i>
+<span>40+ faculty</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-16 max-w-4xl mx-auto">
+<div class="bg-white rounded-lg shadow-md p-8">
+<h3 class="text-2xl font-bold text-gray-900 mb-6">Why Choose MedPrep Hub?</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+<i class="ri-device-line text-primary text-2xl"></i>
+</div>
+<h4 class="text-lg font-semibold mb-2">All Platforms, One Place</h4>
+<p class="text-gray-600">Access content from multiple platforms without switching apps</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+<i class="ri-time-line text-primary text-2xl"></i>
+</div>
+<h4 class="text-lg font-semibold mb-2">Save Time</h4>
+<p class="text-gray-600">Organized structure helps you focus on learning, not searching</p>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+<i class="ri-bookmark-line text-primary text-2xl"></i>
+</div>
+<h4 class="text-lg font-semibold mb-2">Track Progress</h4>
+<p class="text-gray-600">Monitor your learning journey across all platforms</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Subjects Page -->
+<div id="subjects-page" class="page">
+<div class="container mx-auto px-4 py-8">
+<div class="flex items-center mb-8">
+<button onclick="navigateTo('home-page')" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i>
+<span>Back to Platforms</span>
+</button>
+<div class="mx-4 text-gray-400">/</div>
+<span id="platform-name" class="font-medium text-gray-900">Platform</span>
+</div>
+<div class="mb-8">
+<h2 class="text-3xl font-bold text-gray-900 mb-4">MBBS Subjects</h2>
+<div class="flex flex-wrap items-center gap-4">
+<div class="relative">
+<input type="text" placeholder="Search subjects..." class="pl-10 pr-4 py-2 rounded-full text-sm border-none bg-gray-100 w-64">
+<div class="absolute left-3 top-2 w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div class="flex bg-gray-100 rounded-full p-1">
+<button class="px-4 py-2 rounded-full bg-primary text-white text-sm font-medium !rounded-button whitespace-nowrap">All</button>
+<button class="px-4 py-2 rounded-full text-gray-600 text-sm font-medium !rounded-button whitespace-nowrap">Pre-clinical</button>
+<button class="px-4 py-2 rounded-full text-gray-600 text-sm font-medium !rounded-button whitespace-nowrap">Para-clinical</button>
+<button class="px-4 py-2 rounded-full text-gray-600 text-sm font-medium !rounded-button whitespace-nowrap">Clinical</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" style="display: grid;">
+<!-- Anatomy -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Anatomy')">
+<div class="h-40 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-heart-pulse-line text-red-500 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Anatomy</h3>
+<p class="text-gray-600 mb-3">Study of body structure and organization</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">128 lectures</span>
+<span class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs font-medium">Pre-clinical</span>
+</div>
+</div>
+</div>
+<!-- Physiology -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Physiology')">
+<div class="h-40 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-pulse-line text-blue-500 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Physiology</h3>
+<p class="text-gray-600 mb-3">Study of normal body functions</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">142 lectures</span>
+<span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">Pre-clinical</span>
+</div>
+</div>
+</div>
+<!-- Biochemistry -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Biochemistry')">
+<div class="h-40 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-test-tube-line text-green-500 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Biochemistry</h3>
+<p class="text-gray-600 mb-3">Study of chemical processes in living organisms</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">118 lectures</span>
+<span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Pre-clinical</span>
+</div>
+</div>
+</div>
+<!-- Pathology -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Pathology')">
+<div class="h-40 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-microscope-line text-purple-500 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Pathology</h3>
+<p class="text-gray-600 mb-3">Study of disease mechanisms</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">156 lectures</span>
+<span class="bg-purple-100 text-purple-600 px-2 py-1 rounded-full text-xs font-medium">Para-clinical</span>
+</div>
+</div>
+</div>
+<!-- Microbiology -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Microbiology')">
+<div class="h-40 bg-gradient-to-br from-yellow-100 to-yellow-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-virus-line text-yellow-600 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Microbiology</h3>
+<p class="text-gray-600 mb-3">Study of microorganisms and infections</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">132 lectures</span>
+<span class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs font-medium">Para-clinical</span>
+</div>
+</div>
+</div>
+<!-- Pharmacology -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Pharmacology')">
+<div class="h-40 bg-gradient-to-br from-cyan-100 to-cyan-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-medicine-bottle-line text-cyan-500 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Pharmacology</h3>
+<p class="text-gray-600 mb-3">Study of drug actions and effects</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">145 lectures</span>
+<span class="bg-cyan-100 text-cyan-600 px-2 py-1 rounded-full text-xs font-medium">Para-clinical</span>
+</div>
+</div>
+</div>
+<!-- Forensic Medicine -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Forensic Medicine')">
+<div class="h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-scales-3-line text-gray-600 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Forensic Medicine</h3>
+<p class="text-gray-600 mb-3">Application of medical knowledge to legal issues</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">98 lectures</span>
+<span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">Para-clinical</span>
+</div>
+</div>
+</div>
+<!-- Medicine -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer" onclick="navigateTo('lectures-page', 'Medicine')">
+<div class="h-40 bg-gradient-to-br from-indigo-100 to-indigo-200 flex items-center justify-center">
+<div class="w-20 h-20 flex items-center justify-center">
+<i class="ri-stethoscope-line text-indigo-500 text-4xl"></i>
+</div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">Medicine</h3>
+<p class="text-gray-600 mb-3">Diagnosis and treatment of internal diseases</p>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">178 lectures</span>
+<span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs font-medium">Clinical</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-600 font-medium flex items-center !rounded-button whitespace-nowrap">
+<span>Show all 19 subjects</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Lectures Page -->
+<div id="lectures-page" class="page">
+<div class="container mx-auto px-4 py-8">
+<div class="flex items-center mb-8">
+<button onclick="navigateTo('subjects-page')" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i>
+<span>Back to Subjects</span>
+</button>
+<div class="mx-4 text-gray-400">/</div>
+<span id="platform-name-lectures" class="text-gray-600">Platform</span>
+<div class="mx-4 text-gray-400">/</div>
+<span id="subject-name" class="font-medium text-gray-900">Subject</span>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h2 class="text-3xl font-bold text-gray-900 mb-2" id="subject-title">Subject Lectures</h2>
+<p class="text-gray-600">Complete video lectures with notes and resources</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="relative">
+<input type="text" placeholder="Search lectures..." class="pl-10 pr-4 py-2 rounded-full text-sm border-none bg-gray-100 w-64">
+<div class="absolute left-3 top-2 w-5 h-5 flex items-center justify-center text-gray-500">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div class="relative">
+<button class="px-4 py-2 bg-white border border-gray-300 rounded-full text-gray-700 text-sm font-medium flex items-center !rounded-button whitespace-nowrap">
+<span>Sort by: Newest</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+</div>
+<div class="relative">
+<button class="px-4 py-2 bg-white border border-gray-300 rounded-full text-gray-700 text-sm font-medium flex items-center !rounded-button whitespace-nowrap">
+<i class="ri-filter-3-line mr-2"></i>
+<span>Filters</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+<div class="p-6 border-b border-gray-100">
+<h3 class="text-xl font-semibold text-gray-900">Module 1: Introduction and Basics</h3>
+</div>
+<!-- Lecture Item -->
+<div class="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer" onclick="navigateTo('video-page', 'Introduction to Subject')">
+<div class="p-5 flex flex-col md:flex-row gap-4">
+<div class="w-full md:w-64 h-36 bg-gray-200 rounded flex items-center justify-center relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=medical%20lecture%2C%20classroom%20setting%20with%20professor%20teaching%20medical%20students%2C%20medical%20diagrams%20on%20screen%2C%20professional%20educational%20environment&width=640&height=360&seq=1&orientation=landscape" alt="Lecture thumbnail" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-white bg-opacity-80 flex items-center justify-center">
+<i class="ri-play-fill text-primary text-xl"></i>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+42:18
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-lg font-medium text-gray-900 mb-2">Introduction to Subject: Scope and Importance</h4>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-bookmark-line"></i>
+</button>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-download-line"></i>
+</button>
+</div>
+</div>
+<p class="text-gray-600 mb-3">Overview of the subject, its importance in clinical practice, and key concepts that will be covered throughout the course.</p>
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-user-line mr-1"></i>
+<span>Dr. Rajesh Kumar</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>May 5, 2025</span>
+</div>
+<div class="flex items-center text-sm">
+<div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+<div class="w-0 h-full bg-primary"></div>
+</div>
+<span class="ml-2 text-gray-500">Not started</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lecture Item -->
+<div class="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer" onclick="navigateTo('video-page', 'Basic Terminology')">
+<div class="p-5 flex flex-col md:flex-row gap-4">
+<div class="w-full md:w-64 h-36 bg-gray-200 rounded flex items-center justify-center relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=medical%20terminology%20lecture%2C%20medical%20professor%20explaining%20anatomical%20terms%20with%20detailed%20diagrams%2C%20professional%20educational%20setting%20with%20medical%20students&width=640&height=360&seq=2&orientation=landscape" alt="Lecture thumbnail" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-white bg-opacity-80 flex items-center justify-center">
+<i class="ri-play-fill text-primary text-xl"></i>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+38:45
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-lg font-medium text-gray-900 mb-2">Basic Terminology and Nomenclature</h4>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-bookmark-line"></i>
+</button>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-download-line"></i>
+</button>
+</div>
+</div>
+<p class="text-gray-600 mb-3">Essential terminology and nomenclature used in the subject, with emphasis on commonly tested terms in NEET-PG.</p>
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-user-line mr-1"></i>
+<span>Dr. Rajesh Kumar</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>May 5, 2025</span>
+</div>
+<div class="flex items-center text-sm">
+<div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+<div class="w-0 h-full bg-primary"></div>
+</div>
+<span class="ml-2 text-gray-500">Not started</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lecture Item -->
+<div class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="navigateTo('video-page', 'Historical Perspective')">
+<div class="p-5 flex flex-col md:flex-row gap-4">
+<div class="w-full md:w-64 h-36 bg-gray-200 rounded flex items-center justify-center relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=medical%20history%20lecture%2C%20professor%20discussing%20evolution%20of%20medicine%20with%20timeline%20on%20screen%2C%20historical%20medical%20instruments%20displayed%2C%20educational%20setting&width=640&height=360&seq=3&orientation=landscape" alt="Lecture thumbnail" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-white bg-opacity-80 flex items-center justify-center">
+<i class="ri-play-fill text-primary text-xl"></i>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+35:22
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-lg font-medium text-gray-900 mb-2">Historical Perspective and Evolution</h4>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-bookmark-line"></i>
+</button>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-download-line"></i>
+</button>
+</div>
+</div>
+<p class="text-gray-600 mb-3">Historical development of the subject, key discoveries, and how they have shaped modern understanding and practice.</p>
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-user-line mr-1"></i>
+<span>Dr. Rajesh Kumar</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>May 5, 2025</span>
+</div>
+<div class="flex items-center text-sm">
+<div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+<div class="w-0 h-full bg-primary"></div>
+</div>
+<span class="ml-2 text-gray-500">Not started</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+<div class="p-6 border-b border-gray-100">
+<h3 class="text-xl font-semibold text-gray-900">Module 2: Core Concepts</h3>
+</div>
+<!-- Lecture Item -->
+<div class="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer" onclick="navigateTo('video-page', 'Fundamental Principles')">
+<div class="p-5 flex flex-col md:flex-row gap-4">
+<div class="w-full md:w-64 h-36 bg-gray-200 rounded flex items-center justify-center relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=medical%20principles%20lecture%2C%20professor%20explaining%20fundamental%20medical%20concepts%20with%20detailed%20diagrams%2C%20professional%20educational%20environment%20with%20attentive%20medical%20students&width=640&height=360&seq=4&orientation=landscape" alt="Lecture thumbnail" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-white bg-opacity-80 flex items-center justify-center">
+<i class="ri-play-fill text-primary text-xl"></i>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+47:10
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-lg font-medium text-gray-900 mb-2">Fundamental Principles and Mechanisms</h4>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-bookmark-line"></i>
+</button>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-download-line"></i>
+</button>
+</div>
+</div>
+<p class="text-gray-600 mb-3">Core principles that govern the subject, with detailed explanation of underlying mechanisms and their clinical significance.</p>
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-user-line mr-1"></i>
+<span>Dr. Priya Sharma</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>May 7, 2025</span>
+</div>
+<div class="flex items-center text-sm">
+<div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+<div class="w-0 h-full bg-primary"></div>
+</div>
+<span class="ml-2 text-gray-500">Not started</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lecture Item -->
+<div class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="navigateTo('video-page', 'Classification Systems')">
+<div class="p-5 flex flex-col md:flex-row gap-4">
+<div class="w-full md:w-64 h-36 bg-gray-200 rounded flex items-center justify-center relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=medical%20classification%20lecture%2C%20professor%20explaining%20taxonomy%20of%20diseases%20with%20organized%20charts%20and%20diagrams%2C%20professional%20educational%20setting%20with%20medical%20students%20taking%20notes&width=640&height=360&seq=5&orientation=landscape" alt="Lecture thumbnail" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-white bg-opacity-80 flex items-center justify-center">
+<i class="ri-play-fill text-primary text-xl"></i>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+41:35
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-lg font-medium text-gray-900 mb-2">Classification Systems and Taxonomy</h4>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-bookmark-line"></i>
+</button>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
+<i class="ri-download-line"></i>
+</button>
+</div>
+</div>
+<p class="text-gray-600 mb-3">Various classification systems used in the subject, their clinical utility, and how to remember them for exams.</p>
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-user-line mr-1"></i>
+<span>Dr. Priya Sharma</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>May 7, 2025</span>
+</div>
+<div class="flex items-center text-sm">
+<div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+<div class="w-0 h-full bg-primary"></div>
+</div>
+<span class="ml-2 text-gray-500">Not started</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-600 font-medium flex items-center !rounded-button whitespace-nowrap">
+<span>Load more lectures</span>
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Video Player Page -->
+<div id="video-page" class="page">
+<div class="container mx-auto px-4 py-8">
+<div class="flex items-center mb-8">
+<button onclick="navigateTo('lectures-page')" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i>
+<span>Back to Lectures</span>
+</button>
+<div class="mx-4 text-gray-400">/</div>
+<span id="platform-name-video" class="text-gray-600">Platform</span>
+<div class="mx-4 text-gray-400">/</div>
+<span id="subject-name-video" class="text-gray-600">Subject</span>
+<div class="mx-4 text-gray-400">/</div>
+<span id="lecture-name" class="font-medium text-gray-900">Lecture</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2">
+<!-- Video Player -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+<div class="aspect-w-16 aspect-h-9 bg-black relative">
+<div class="w-full h-0 pb-[56.25%] relative">
+<iframe src="https://stream1.nextpulse.workers.dev/watch/194711/164+Approach+to+case+of+suspected+Meningitis+yw.mp4?hash=AgADsB" class="absolute inset-0 w-full h-full" frameborder="0" allowfullscreen></iframe>
+</div>
+<!-- Video Controls -->
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+<div class="flex flex-col gap-2">
+<input type="range" min="0" max="100" value="0" class="video-progress">
+<div class="flex items-center justify-between text-white">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full hover:bg-white hover:bg-opacity-10 flex items-center justify-center">
+<i class="ri-play-fill text-2xl"></i>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white hover:bg-opacity-10 flex items-center justify-center">
+<i class="ri-skip-forward-fill"></i>
+</button>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full hover:bg-white hover:bg-opacity-10 flex items-center justify-center">
+<i class="ri-volume-up-fill"></i>
+</button>
+<input type="range" min="0" max="100" value="80" class="volume-slider">
+</div>
+<span class="text-sm">00:00 / 42:18</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-full hover:bg-white hover:bg-opacity-10 flex items-center justify-center">
+<i class="ri-speed-fill"></i>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white hover:bg-opacity-10 flex items-center justify-center">
+<i class="ri-settings-3-fill"></i>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white hover:bg-opacity-10 flex items-center justify-center">
+<i class="ri-fullscreen-fill"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Video Info -->
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 mb-2" id="video-title">Introduction to Subject: Scope and Importance</h2>
+<div class="flex items-center text-sm text-gray-600">
+<span>Module 1: Introduction and Basics</span>
+<span class="mx-2">•</span>
+<span>Lecture 1 of 24</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">
+<i class="ri-bookmark-line"></i>
+</button>
+<a href="https://stream1.nextpulse.workers.dev/dl/194711/164+Approach+to+case+of+suspected+Meningitis+yw.mp4?hash=AgADsB" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">
+<i class="ri-download-line"></i>
+</a>
+<button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">
+<i class="ri-share-line"></i>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+<i class="ri-user-line text-primary"></i>
+</div>
+<span class="text-gray-700 font-medium">Dr. Rajesh Kumar</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>May 5, 2025</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-time-line mr-1"></i>
+<span>42:18</span>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<i class="ri-eye-line mr-1"></i>
+<span>2,547 views</span>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-3">About this lecture</h3>
+<p class="text-gray-700 mb-4">This introductory lecture provides a comprehensive overview of the subject, its importance in clinical practice, and the key concepts that will be covered throughout the course. Dr. Rajesh Kumar explains the fundamental principles and their applications in diagnosis and treatment.</p>
+<div class="bg-gray-50 rounded-lg p-4 mb-4">
+<h4 class="font-medium text-gray-900 mb-2">Key Topics Covered:</h4>
+<ul class="list-disc list-inside text-gray-700 space-y-1">
+<li>Historical development and evolution of the field</li>
+<li>Core principles and their clinical applications</li>
+<li>Current trends and future directions</li>
+<li>High-yield concepts frequently tested in NEET-PG</li>
+<li>Approach to solving MCQs related to the subject</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Introduction</span>
+<span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Basics</span>
+<span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">NEET-PG</span>
+<span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">High-Yield</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Notes Section -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+<div class="p-6 border-b border-gray-100">
+<h3 class="text-lg font-semibold text-gray-900">Your Notes</h3>
+</div>
+<div class="p-6">
+<textarea placeholder="Add your notes here..." class="w-full h-32 p-4 border border-gray-200 rounded-lg text-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
+<div class="flex justify-between mt-4">
+<div class="flex items-center gap-4">
+<button class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-bold"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-italic"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-underline"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-500">
+<i class="ri-list-check"></i>
+</button>
+</div>
+<button class="px-4 py-2 bg-primary text-white rounded-lg font-medium !rounded-button whitespace-nowrap">Save Notes</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<!-- Chapters/Topics -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+<div class="p-6 border-b border-gray-100 flex justify-between items-center">
+<h3 class="text-lg font-semibold text-gray-900">Lecture Chapters</h3>
+<button class="text-primary font-medium">Expand All</button>
+</div>
+<div class="divide-y divide-gray-100">
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-3 text-sm">
+1
+</div>
+<div>
+<h4 class="font-medium text-gray-900">Introduction</h4>
+<span class="text-sm text-gray-500">00:00 - 03:45</span>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center mr-3 text-sm">
+2
+</div>
+<div>
+<h4 class="font-medium text-gray-900">Historical Background</h4>
+<span class="text-sm text-gray-500">03:46 - 08:20</span>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center mr-3 text-sm">
+3
+</div>
+<div>
+<h4 class="font-medium text-gray-900">Scope and Applications</h4>
+<span class="text-sm text-gray-500">08:21 - 15:40</span>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center mr-3 text-sm">
+4
+</div>
+<div>
+<h4 class="font-medium text-gray-900">Core Principles</h4>
+<span class="text-sm text-gray-500">15:41 - 25:15</span>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center mr-3 text-sm">
+5
+</div>
+<div>
+<h4 class="font-medium text-gray-900">Clinical Relevance</h4>
+<span class="text-sm text-gray-500">25:16 - 35:30</span>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center mr-3 text-sm">
+6
+</div>
+<div>
+<h4 class="font-medium text-gray-900">Exam Approach</h4>
+<span class="text-sm text-gray-500">35:31 - 42:18</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Lectures -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6 border-b border-gray-100">
+<h3 class="text-lg font-semibold text-gray-900">Related Lectures</h3>
+</div>
+<div class="divide-y divide-gray-100">
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex gap-3">
+<div class="w-20 h-20 bg-gray-200 rounded flex-shrink-0 relative">
+<img src="https://readdy.ai/api/search-image?query=medical%20terminology%20lecture%2C%20close%20up%20of%20medical%20diagrams%20and%20terminology%20charts%2C%20professional%20educational%20setting&width=200&height=200&seq=7&orientation=squarish" alt="Lecture thumbnail" class="w-full h-full object-cover rounded">
+<div class="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-xs px-1 py-0.5 rounded">
+38:45
+</div>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 text-sm mb-1">Basic Terminology and Nomenclature</h4>
+<p class="text-xs text-gray-500 mb-1">Module 1: Introduction and Basics</p>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-user-line mr-1 text-xs"></i>
+<span>Dr. Rajesh Kumar</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex gap-3">
+<div class="w-20 h-20 bg-gray-200 rounded flex-shrink-0 relative">
+<img src="https://readdy.ai/api/search-image?query=medical%20history%20lecture%2C%20close%20up%20of%20historical%20medical%20timeline%20and%20development%20charts%2C%20professional%20educational%20setting&width=200&height=200&seq=8&orientation=squarish" alt="Lecture thumbnail" class="w-full h-full object-cover rounded">
+<div class="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-xs px-1 py-0.5 rounded">
+35:22
+</div>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 text-sm mb-1">Historical Perspective and Evolution</h4>
+<p class="text-xs text-gray-500 mb-1">Module 1: Introduction and Basics</p>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-user-line mr-1 text-xs"></i>
+<span>Dr. Rajesh Kumar</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex gap-3">
+<div class="w-20 h-20 bg-gray-200 rounded flex-shrink-0 relative">
+<img src="https://readdy.ai/api/search-image?query=medical%20principles%20lecture%2C%20close%20up%20of%20fundamental%20medical%20concept%20diagrams%2C%20professional%20educational%20setting&width=200&height=200&seq=9&orientation=squarish" alt="Lecture thumbnail" class="w-full h-full object-cover rounded">
+<div class="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-xs px-1 py-0.5 rounded">
+47:10
+</div>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 text-sm mb-1">Fundamental Principles and Mechanisms</h4>
+<p class="text-xs text-gray-500 mb-1">Module 2: Core Concepts</p>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-user-line mr-1 text-xs"></i>
+<span>Dr. Priya Sharma</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 hover:bg-gray-50 cursor-pointer">
+<div class="flex gap-3">
+<div class="w-20 h-20 bg-gray-200 rounded flex-shrink-0 relative">
+<img src="https://readdy.ai/api/search-image?query=medical%20classification%20lecture%2C%20close%20up%20of%20taxonomy%20charts%20and%20classification%20systems%2C%20professional%20educational%20setting&width=200&height=200&seq=10&orientation=squarish" alt="Lecture thumbnail" class="w-full h-full object-cover rounded">
+<div class="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-xs px-1 py-0.5 rounded">
+41:35
+</div>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 text-sm mb-1">Classification Systems and Taxonomy</h4>
+<p class="text-xs text-gray-500 mb-1">Module 2: Core Concepts</p>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-user-line mr-1 text-xs"></i>
+<span>Dr. Priya Sharma</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Floating Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+<div class="container mx-auto">
+<div class="flex justify-around items-center py-2">
+<button onclick="navigateTo('home-page')" class="flex flex-col items-center p-2 text-gray-600 hover:text-primary">
+<i class="ri-home-5-line text-2xl"></i>
+<span class="text-xs mt-1">Home</span>
+</button>
+<button onclick="navigateTo('subjects-page')" class="flex flex-col items-center p-2 text-gray-600 hover:text-primary">
+<i class="ri-book-2-line text-2xl"></i>
+<span class="text-xs mt-1">Books</span>
+</button>
+<button class="flex flex-col items-center p-2 text-gray-600 hover:text-primary">
+<i class="ri-file-list-3-line text-2xl"></i>
+<span class="text-xs mt-1">Notes</span>
+</button>
+<button class="flex flex-col items-center p-2 text-gray-600 hover:text-primary">
+<i class="ri-questionnaire-line text-2xl"></i>
+<span class="text-xs mt-1">QBank</span>
+</button>
+</div>
+</div>
+</nav>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Theme toggle functionality
+  const themeToggle = document.getElementById("theme-toggle");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  function setTheme(isDark) {
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDark ? "dark" : "light",
+    );
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    document.documentElement.style.transition =
+      "background-color 0.3s ease, color 0.3s ease";
+  }
+  // Initialize theme
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    setTheme(savedTheme === "dark");
+  } else {
+    setTheme(prefersDark.matches);
+  }
+  // Theme toggle click handler
+  themeToggle.addEventListener("click", () => {
+    const isDark =
+      document.documentElement.getAttribute("data-theme") === "dark";
+    const newTheme = !isDark;
+    setTheme(newTheme);
+    // Show toast notification
+    const toast = document.getElementById("theme-toast");
+    const toastMessage = toast.querySelector("span");
+    toastMessage.textContent = newTheme
+      ? "Dark mode enabled"
+      : "Light mode enabled";
+    // Animate toast
+    toast.style.transform = "translate(0, 0)";
+    setTimeout(() => {
+      toast.style.transform = "translate(0, -100px)";
+    }, 2000);
+    // Add rotation animation to the button
+    themeToggle.style.transform = "rotate(180deg)";
+    setTimeout(() => {
+      themeToggle.style.transform = "rotate(0)";
+    }, 300);
+  });
+  // Listen for system theme changes
+  prefersDark.addEventListener("change", (e) => {
+    if (!localStorage.getItem("theme")) {
+      setTheme(e.matches);
+    }
+  });
+  // Search functionality
+  function setupSearch(inputSelector, itemSelector, getSearchText) {
+    const searchInput = document.querySelector(inputSelector);
+    if (!searchInput) return;
+    searchInput.addEventListener("input", function () {
+      const searchTerm = this.value.toLowerCase().trim();
+      const items = document.querySelectorAll(itemSelector);
+      items.forEach((item) => {
+        const text = getSearchText(item).toLowerCase();
+        const parent =
+          item.closest(".platform-card, .subject-card, .lecture-item") || item;
+        if (text.includes(searchTerm)) {
+          parent.style.order = text.startsWith(searchTerm) ? "-1" : "0";
+          parent.style.display = "";
+        } else {
+          parent.style.display = "none";
+        }
+      });
+    });
+  }
+  // Setup search for platforms
+  setupSearch(
+    'input[placeholder="Search..."]',
+    ".platform-card",
+    (item) => item.querySelector("h3").textContent,
+  );
+  // Setup search for subjects
+  setupSearch(
+    'input[placeholder="Search subjects..."]',
+    "[onclick*=\"navigateTo('lectures-page'\"]",
+    (item) => {
+      const title = item.querySelector("h3");
+      const desc = item.querySelector("p");
+      return `${title.textContent} ${desc.textContent}`;
+    },
+  );
+  // Setup search for lectures
+  setupSearch(
+    'input[placeholder="Search lectures..."]',
+    "[onclick*=\"navigateTo('video-page'\"]",
+    (item) => {
+      const title = item.querySelector("h4");
+      const desc = item.querySelector("p");
+      return `${title.textContent} ${desc ? desc.textContent : ""}`;
+    },
+  );
+  // Navigation functions
+  window.navigateTo = function (pageId, itemName) {
+    // Hide all pages
+    document.querySelectorAll(".page").forEach((page) => {
+      page.classList.remove("active-page");
+    });
+    // Show selected page
+    document.getElementById(pageId).classList.add("active-page");
+    // Update breadcrumb info
+    if (pageId === "subjects-page" && itemName) {
+      document.getElementById("platform-name").textContent = itemName;
+    }
+    if (pageId === "lectures-page" && itemName) {
+      document.getElementById("subject-name").textContent = itemName;
+      document.getElementById("subject-title").textContent =
+        itemName + " Lectures";
+      document.getElementById("platform-name-lectures").textContent =
+        document.getElementById("platform-name").textContent;
+    }
+    if (pageId === "video-page" && itemName) {
+      document.getElementById("lecture-name").textContent = itemName;
+      document.getElementById("video-title").textContent = itemName;
+      document.getElementById("platform-name-video").textContent =
+        document.getElementById("platform-name-lectures").textContent;
+      document.getElementById("subject-name-video").textContent =
+        document.getElementById("subject-name").textContent;
+    }
+    // Scroll to top
+    window.scrollTo(0, 0);
+  };
+  // Custom checkbox and switch functionality
+  document.querySelectorAll(".custom-checkbox").forEach((checkbox) => {
+    checkbox.addEventListener("click", function () {
+      this.checked = !this.checked;
+    });
+  });
+  document.querySelectorAll(".custom-switch input").forEach((switchInput) => {
+    switchInput.addEventListener("click", function () {
+      this.checked = !this.checked;
+    });
+  });
+});
+</script>
+</body>
+</html>
